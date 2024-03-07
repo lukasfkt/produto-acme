@@ -13,6 +13,7 @@ interface useUserProps {
     password: string
   ) => Promise<{ authenticated: boolean }>;
   verifyUser: () => { redirectTo: "home" | "login" };
+  logout: () => void;
 }
 
 export const useUser = create<useUserProps>((set) => ({
@@ -57,5 +58,10 @@ export const useUser = create<useUserProps>((set) => ({
       return { redirectTo: "home" };
     }
     return { redirectTo: "login" };
+  },
+
+  logout: () => {
+    localStorage.removeItem("acmeAuthUser");
+    set({ user: { token: "", isAuthenticated: false } });
   },
 }));

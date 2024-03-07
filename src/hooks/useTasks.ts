@@ -1,13 +1,13 @@
 import { create } from "zustand";
 import { api } from "../services/axios";
 
-interface Task {
-  uuid: string;
+export interface Task {
+  uuid?: string;
   title: string;
   description: string;
   completed: boolean;
-  createdAt: string;
-  updatedAt: string;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 interface Pagination {

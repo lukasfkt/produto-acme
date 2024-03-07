@@ -5,7 +5,7 @@ import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useUser } from "../../hooks/useUser";
 
-import { InputLogin } from "../../components/Input";
+import { Input } from "../../components/Input";
 import { LinearButton } from "../../components/LinearButton";
 
 const loginFormSchema = z.object({
@@ -59,14 +59,14 @@ export default function LoginPage() {
           Welcome Back!{" "}
         </h1>
         <div className="flex flex-col gap-5">
-          <InputLogin
+          <Input
             {...register("username")}
             icon="username"
             type="text"
             required
             placeholder="E-mail"
           />
-          <InputLogin
+          <Input
             {...register("password")}
             icon="password"
             type="password"

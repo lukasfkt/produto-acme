@@ -7,6 +7,7 @@ import { useTasks } from "../../hooks/useTasks";
 import { MdKeyboardArrowRight } from "react-icons/md";
 import { LinearButton } from "../../components/LinearButton";
 import Loading from "../../components/Loading";
+import TaskDetailModal from "../../components/TaskDetailModal";
 
 export default function HomePage() {
   const { listTasks, tasks, pagination } = useTasks();
@@ -25,6 +26,10 @@ export default function HomePage() {
     await listTasks(1);
     setIsLoading(false);
   }, [listTasks]);
+
+  useEffect(() => {
+    console.log(tasks);
+  }, [tasks]);
 
   useEffect(() => {
     var current = 0;
@@ -136,40 +141,53 @@ export default function HomePage() {
                   </tr>
                 </thead>
                 <tbody className="px-10">
-                  {tasks?.map((task) => {
-                    return (
-                      <tr
-                        key={task.uuid}
-                        className="border-b border-grey-700 border-opacity-20"
-                      >
-                        <td className="py-5 px-1 max-lg:text-sm max-md:text-xs break-all">
-                          {task?.title}
-                        </td>
-                        <td className="py-5 px-1 max-lg:text-sm max-md:text-xs break-all">
-                          {task?.description}
-                        </td>
-                        <td className="py-5 px-1 max-lg:text-sm max-md:text-xs break-all">
-                          {task?.completed ? (
-                            <span className="font-bold text-green-500">
-                              SIM
-                            </span>
-                          ) : (
-                            <span className="font-bold text-red-500">NÃO</span>
-                          )}
-                        </td>
-                        <td>
-                          <Dialog.Root>
-                            <Dialog.Trigger
-                              className="hover:opacity-70"
-                              type="button"
-                            >
-                              <MdKeyboardArrowRight size={24} />
-                            </Dialog.Trigger>
-                          </Dialog.Root>
-                        </td>
-                      </tr>
-                    );
-                  })}
+                  {tasks?.length === 0 ? (
+                    <tr>
+                      <td colSpan={3} className="text-center py-5">
+                        Nenhuma tarefa encontrada
+                      </td>
+                    </tr>
+                  ) : (
+                    <>
+                      {tasks?.map((task, index) => {
+                        return (
+                          <tr
+                            key={task?.uuid || index}
+                            className="border-b border-grey-700 border-opacity-20"
+                          >
+                            <td className="py-5 px-1 max-lg:text-sm max-md:text-xs break-all">
+                              {task?.title}
+                            </td>
+                            <td className="py-5 px-1 max-lg:text-sm max-md:text-xs break-all">
+                              {task?.description}
+                            </td>
+                            <td className="py-5 px-1 max-lg:text-sm max-md:text-xs break-all">
+                              {task?.completed ? (
+                                <span className="font-bold text-green-500">
+                                  SIM
+                                </span>
+                              ) : (
+                                <span className="font-bold text-red-500">
+                                  NÃO
+                                </span>
+                              )}
+                            </td>
+                            <td>
+                              <Dialog.Root>
+                                <Dialog.Trigger
+                                  className="hover:opacity-70"
+                                  type="button"
+                                >
+                                  <MdKeyboardArrowRight size={24} />
+                                </Dialog.Trigger>
+                                <TaskDetailModal task={task} />
+                              </Dialog.Root>
+                            </td>
+                          </tr>
+                        );
+                      })}
+                    </>
+                  )}
                 </tbody>
               </table>
             </div>
@@ -251,7 +269,12 @@ export default function HomePage() {
               )}
               <div className="flex w-full justify-end">
                 <div className="w-[300px] max-md:w-full">
-                  <LinearButton textSize="16" text="Criar nova task" />
+                  <Dialog.Root>
+                    <Dialog.Trigger asChild>
+                      <LinearButton textSize="16" text="Criar nova task" />
+                    </Dialog.Trigger>
+                    <TaskDetailModal isCreating />
+                  </Dialog.Root>
                 </div>
               </div>
             </div>

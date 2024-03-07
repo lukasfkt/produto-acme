@@ -2,15 +2,16 @@ import React, { InputHTMLAttributes, useState } from "react";
 import { FaRegUser } from "react-icons/fa";
 import { RiLockPasswordLine } from "react-icons/ri";
 
-interface InputLoginProps extends InputHTMLAttributes<HTMLInputElement> {
+interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   icon?: "username" | "password";
   showPassword?: boolean;
+  classNamesDiv?: string;
 }
 
-export const InputLogin = React.forwardRef<
+export const Input = React.forwardRef<
   HTMLInputElement,
-  Omit<InputLoginProps, "ref">
->(({ icon, showPassword, ...props }, ref) => {
+  Omit<InputProps, "ref">
+>(({ icon, showPassword, classNamesDiv, ...props }, ref) => {
   const [isFocused, setIsFocused] = useState(false);
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
@@ -20,7 +21,7 @@ export const InputLogin = React.forwardRef<
         icon ? "px-3" : "px-4"
       } py-4 max-md:py-[14px] gap-[10px] bg-grey-600 border ${
         isFocused ? "border-primary-blue" : "border-grey-400"
-      } rounded-lg min-w-[300px]`}
+      } rounded-lg min-w-[300px] ${classNamesDiv}`}
     >
       {icon === "username" && <FaRegUser size={20} />}
       {icon === "password" && <RiLockPasswordLine size={20} />}
@@ -30,7 +31,7 @@ export const InputLogin = React.forwardRef<
         onFocus={() => setIsFocused(true)}
         onBlur={() => setIsFocused(false)}
         type={isPasswordVisible ? "text" : props.type}
-        className="w-full bg-transparent border-none outline-none text-azulfy-rich-black max-md:text-sm font-bold font-comfortaa opacity-70"
+        className="w-full bg-transparent border-none outline-none text-azulfy-rich-black max-md:text-sm font-bold font-comfortaa"
       />
       {showPassword && (
         <button

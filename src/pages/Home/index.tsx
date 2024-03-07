@@ -30,7 +30,7 @@ export default function HomePage() {
     var current = 0;
     var next = [];
     var previous = [];
-    const MAX_PAGE = 2;
+    const MAX_PAGE = 1;
     if (pagination) {
       for (
         let i = pagination.currentPage;
@@ -59,7 +59,7 @@ export default function HomePage() {
         previous.unshift("...");
         previous.unshift(1);
       }
-      if (pagination.totalPages - pagination.currentPage > MAX_PAGE + 1) {
+      if (pagination.totalPages - pagination.currentPage > MAX_PAGE) {
         next.push("...");
         next.push(pagination.totalPages);
       }
@@ -99,7 +99,7 @@ export default function HomePage() {
   return (
     <section>
       <Header />
-      <div className="mt-[120px] px-[8.444vw]">
+      <div className="mt-[100px] px-[8.444vw]">
         <div className="flex items-center justify-between max-md:flex-col max-md:items-start gap-y-5">
           <h1 className="font-bold text-primary-blue text-lg">Tasks</h1>
           <SearchInput
@@ -173,7 +173,7 @@ export default function HomePage() {
                 </tbody>
               </table>
             </div>
-            <div className="flex flex-col gap-3 pb-6">
+            <div className="flex flex-col max-md:gap-3 pb-6">
               {tasks?.length > 0 && (
                 <footer className="flex justify-center items-center gap-3 py-2 mt-5">
                   {pagination && (
